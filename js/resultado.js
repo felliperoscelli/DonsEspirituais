@@ -1,13 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const dons = [
+    "Profecia", "Serviço", "Ensino", "Exortação", "Dádivas", "Liderança", "Misericórdia",
+    "Sabedoria", "Conhecimento", "Fé", "Curas", "Milagres", "Discernimento",
+    "Línguas", "Interpretação", "Apostolado", "Ajudas", "Administração", "Evangelismo",
+    "Pastorado", "Celibato", "Hospitalidade", "Missionário", "Intercessão", "Exorcismo"
+  ];
 
-const dons = [
-  "Profecia", "Serviço", "Ensino", "Exortação", "Dádivas", "Liderança", "Misericórdia",
-  "Sabedoria", "Conhecimento", "Fé", "Curas", "Milagres", "Discernimento",
-  "Línguas", "Interpretação", "Apostolado", "Ajudas", "Administração", "Evangelismo",
-  "Pastorado", "Celibato", "Hospitalidade", "Missionário", "Intercessão", "Exorcismo"
-];
-
-const resumosDons = {
+  const resumosDons = {
   "Profecia": {
     resumo: "Capacidade de falar a verdade de Deus com clareza e poder, prevendo acontecimentos futuros.",
     exemploBiblico: "Elias em 1 Reis 18:36-39."
@@ -108,11 +107,12 @@ const resumosDons = {
     resumo: "Habilidade de expulsar demônios em nome de Jesus.",
     exemploBiblico: "Jesus em Marcos 1:23-27."
   }
-};
+  };
 
   const respostas = JSON.parse(localStorage.getItem('respostas')) || [];
   const resultadoLista = document.getElementById('resultado-lista');
 
+  // Função para calcular as pontuações
   const calcularPontuacoes = () => {
     const pontuacoes = Array(dons.length).fill(0);
     respostas.forEach((resposta, index) => {
@@ -122,11 +122,12 @@ const resumosDons = {
     return pontuacoes;
   };
 
-  const exibirResultados = () => {
-    const pontuacoes = calcularPontuacoes();
-    const resultados = dons.map((dom, index) => ({ dom, pontuacao: pontuacoes[index] }));
-    resultados.sort((a, b) => b.pontuacao - a.pontuacao);
+  const pontuacoes = calcularPontuacoes();
+  const resultados = dons.map((dom, index) => ({ dom, pontuacao: pontuacoes[index] }));
+  resultados.sort((a, b) => b.pontuacao - a.pontuacao);
 
+  // Função para exibir resultados no HTML
+  const exibirResultados = () => {
     resultados.forEach((resultado) => {
       const li = document.createElement('li');
       li.innerHTML = `
@@ -138,32 +139,43 @@ const resumosDons = {
     });
   };
 
-document.getElementById('salvar-pdf').addEventListener('click', () => {
-  if (typeof window.jspdf !== "undefined") {
+  // Exibir os resultados no DOM ao carregar a página
+  exibirResultados();
+
+  // Função para salvar resultados em PDF com quebras de página
+  document.getElementById('salvar-pdf').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    doc.setFont("Helvetica", "normal");
+    doc.setFontSize(12);
 
-    // Selecionar o conteúdo da página
-    const elemento = document.querySelector('.resultado-container');
+    let y = 10; // Posição vertical inicial
+    const pageHeight = doc.internal.pageSize.height; // Altura da página
+    const margin = 10; // Margem para evitar cortes de texto
 
-    // Renderizar o conteúdo no PDF com escala ajustada
-    doc.html(elemento, {
-      callback: function (doc) {
-        doc.save("resultados_dons_espirituais.pdf");
-      },
-      x: 10,
-      y: 10,
-      width: 190, // Ajusta o conteúdo à largura da página
-      html2canvas: {
-        scale: 0.7 // Reduz a escala do conteúdo para ajustar o tamanho da fonte
-      }
+    // Adicionar título
+    doc.text("Resultados dos Dons Espirituais", margin, y);
+    y += 10;
+
+    resultados.forEach((resultado, index) => {
+      const linhaTexto = `${index + 1}. ${resultado.dom}: ${resultado.pontuacao}`;
+      const resumoTexto = `Resumo: ${resumosDons[resultado.dom]?.resumo || "Resumo não disponível."}`;
+      const exemploTexto = `Exemplo Bíblico: ${resumosDons[resultado.dom]?.exemploBiblico || "Exemplo não disponível."}`;
+
+      // Adicionar conteúdo e verificar se há espaço na página
+      [linhaTexto, resumoTexto, exemploTexto].forEach((texto) => {
+        if (y + 10 > pageHeight - margin) {
+          doc.addPage();
+          y = margin; // Resetar a posição vertical na nova página
+        }
+        doc.text(texto, margin, y);
+        y += 10; // Avançar para a próxima linha
+      });
+
+      y += 5; // Espaço extra entre dons
     });
-  } else {
-    alert("Erro: Biblioteca jsPDF não carregada. Verifique sua conexão com a internet.");
-  }
-});
 
-
-
-  exibirResultados();
+    // Salvar o arquivo PDF
+    doc.save("resultados_dons_espirituais.pdf");
+  });
 });
