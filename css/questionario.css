@@ -45,3 +45,16 @@
   border-radius: 5px;
   cursor: pointer;
 }
+body {
+  font-size: 16px; /* Tamanho base consistente */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.pergunta {
+  font-size: 16px; /* Tamanho fixo para as perguntas */
+  line-height: 1.5; /* Espaçamento entre linhas */
+}
+
+.opcoes label {
+  font-size: 14px; /* Tamanho fixo para as opções */
+}
