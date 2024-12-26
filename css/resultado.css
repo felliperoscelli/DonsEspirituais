@@ -1,0 +1,33 @@
+/* src/components/Resultado.css */
+.resultado-container {
+  padding: 20px;
+}
+
+.resultado-container h1 {
+  margin-bottom: 20px;
+}
+
+.resultado-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.resultado-container li {
+  margin-bottom: 20px;
+}
+
+.resultado-container li p {
+  margin: 5px 0;
+}
+
+.resultado-container button {
+  margin-top: 20px;
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+

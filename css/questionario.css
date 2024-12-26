@@ -1,0 +1,47 @@
+/* src/components/Questionario.css */
+.questionario-container {
+  padding: 20px;
+}
+
+.progresso {
+  height: 20px;
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progresso-barra {
+  height: 100%;
+  background-color: #4CAF50;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+.pergunta {
+  margin-bottom: 20px;
+}
+
+.opcoes {
+  display: flex;
+  flex-direction: column;
+}
+
+.opcoes label {
+  margin-bottom: 10px;
+}
+
+.botoes {
+  margin-top: 20px;
+}
+
+.botoes button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
