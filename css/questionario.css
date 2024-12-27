@@ -58,3 +58,8 @@ body {
 .opcoes label {
   font-size: 14px; /* Tamanho fixo para as opções */
 }
+html {
+  -webkit-text-size-adjust: 100%; /* Prevenir ajustes automáticos no Safari */
+  -ms-text-size-adjust: 100%; /* Prevenir ajustes automáticos no IE Mobile */
+  text-size-adjust: 100%; /* Prevenir ajustes em outros navegadores */
+}
